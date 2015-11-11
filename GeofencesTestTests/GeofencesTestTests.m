@@ -11,6 +11,8 @@
 #import "GeotificationsViewController.h"
 #import "AddGeotificationViewController.h"
 #import "Geotification.h"
+@import MapKit;
+@import CoreLocation;
 
 @interface GeofencesTestTests : XCTestCase
 
@@ -34,13 +36,22 @@
 }
 
 
-- (void)testLoad {
+- (void)testLoadGeo {
     
     NSArray *savedItems = [[NSUserDefaults standardUserDefaults] arrayForKey:kSavedItemsKey];
     if (savedItems) {
         for (id savedItem in savedItems) {
             Geotification *geotification = [NSKeyedUnarchiver unarchiveObjectWithData:savedItem];
             XCTAssertEqualObjects(geotification.note, @"Ecuador - Manta");
+        }
+    }
+}
+- (void)testLoadRadio {
+
+    NSArray *savedItems = [[NSUserDefaults standardUserDefaults] arrayForKey:kSavedItemsKey];
+    if (savedItems) {
+        for (id savedItem in savedItems) {
+            Geotification *geotification = [NSKeyedUnarchiver unarchiveObjectWithData:savedItem];
         }
     }
 }
