@@ -36,26 +36,6 @@
 }
 
 
-- (void)testLoadGeo {
-    
-    NSArray *savedItems = [[NSUserDefaults standardUserDefaults] arrayForKey:kSavedItemsKey];
-    if (savedItems) {
-        for (id savedItem in savedItems) {
-            Geotification *geotification = [NSKeyedUnarchiver unarchiveObjectWithData:savedItem];
-            XCTAssertEqualObjects(geotification.note, @"Manta");
-        }
-    }
-}
-- (void)testLoadRadio {
-
-    NSArray *savedItems = [[NSUserDefaults standardUserDefaults] arrayForKey:kSavedItemsKey];
-    if (savedItems) {
-        for (id savedItem in savedItems) {
-            Geotification *geotification = [NSKeyedUnarchiver unarchiveObjectWithData:savedItem];
-            XCTAssertEqualObjects(geotification.note, @"Montecristi");
-        }
-    }
-}
 
 
 @end
