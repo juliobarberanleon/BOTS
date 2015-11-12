@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-
 #import "Geotification.h"
 #import "GeotificationsViewController.h"
 
@@ -24,6 +23,8 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+
     // Override point for customization after application launch.
     
     self.locationManager = [CLLocationManager new];
@@ -32,7 +33,6 @@
     
     [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge categories:nil]];
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    
     return YES;
 }
 

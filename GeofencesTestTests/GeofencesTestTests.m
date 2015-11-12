@@ -42,7 +42,7 @@
     if (savedItems) {
         for (id savedItem in savedItems) {
             Geotification *geotification = [NSKeyedUnarchiver unarchiveObjectWithData:savedItem];
-            XCTAssertEqualObjects(geotification.note, @"Ecuador - Manta");
+            XCTAssertEqualObjects(geotification.note, @"Manta");
         }
     }
 }
@@ -52,6 +52,7 @@
     if (savedItems) {
         for (id savedItem in savedItems) {
             Geotification *geotification = [NSKeyedUnarchiver unarchiveObjectWithData:savedItem];
+            XCTAssertEqualObjects(geotification.note, @"Montecristi");
         }
     }
 }
