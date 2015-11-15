@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Property Atomic Strong SAC. All rights reserved.
 //
 
-#import "Geotification.h"
+#import "GeoNotificaciones.h"
 
 static NSString * kGeotificationLatitudeKey = @"latitude";
 static NSString * kGeotificationLongitudeKey = @"longitude";
@@ -15,31 +15,31 @@ static NSString * kGeotificationIdentifierKey = @"identifier";
 static NSString * kGeotificationNoteKey = @"note";
 static NSString * kGeotificationEventTypeKey = @"eventType";
 
-@interface Geotification ()
+@interface GeoNotificaciones ()
 
 @end
 
-@implementation Geotification 
+@implementation GeoNotificaciones 
 
 - (NSString *)title{
-    if (self.note.length==0) {
-        return @"No Note";
+    if (self.nota.length==0) {
+        return @"No hay nota";
     }
-    return self.note;
+    return self.nota;
 }
 
 - (NSString *)subtitle{
 
-    return [NSString stringWithFormat:@"Radius: %fm", self.radius];
+    return [NSString stringWithFormat:@"Radio: %fm", self.radio];
 }
 
 - (instancetype)initWithCoordinate:(CLLocationCoordinate2D)coordinate radius:(CLLocationDistance)radius identifier:(NSString *)identifier note:(NSString *)note {
     self = [super init];
     if (self) {
         self.coordinate = coordinate;
-        self.radius = radius;
-        self.identifier = identifier;
-        self.note = note;
+        self.radio = radius;
+        self.identificador = identifier;
+        self.nota = note;
     }
     return self;
 }
@@ -50,9 +50,9 @@ static NSString * kGeotificationEventTypeKey = @"eventType";
         CGFloat latitude = [aDecoder decodeDoubleForKey:kGeotificationLatitudeKey];
                             CGFloat longitude = [aDecoder decodeDoubleForKey:kGeotificationLongitudeKey];
         self.coordinate = CLLocationCoordinate2DMake(latitude, longitude);
-        self.radius = [aDecoder decodeDoubleForKey:kGeotificationRadiusKey];
-        self.identifier = [aDecoder decodeObjectForKey:kGeotificationIdentifierKey];
-        self.note = [aDecoder decodeObjectForKey:kGeotificationNoteKey];
+        self.radio = [aDecoder decodeDoubleForKey:kGeotificationRadiusKey];
+        self.identificador = [aDecoder decodeObjectForKey:kGeotificationIdentifierKey];
+        self.nota = [aDecoder decodeObjectForKey:kGeotificationNoteKey];
     }
     return self;
 }
@@ -60,9 +60,9 @@ static NSString * kGeotificationEventTypeKey = @"eventType";
 - (void)encodeWithCoder:(NSCoder *)aCoder{
     [aCoder encodeDouble:self.coordinate.latitude forKey:kGeotificationLatitudeKey];
     [aCoder encodeDouble:self.coordinate.longitude forKey:kGeotificationLongitudeKey];
-    [aCoder encodeDouble:self.radius forKey:kGeotificationRadiusKey];
-    [aCoder encodeObject:self.identifier forKey:kGeotificationIdentifierKey];
-    [aCoder encodeObject:self.note forKey:kGeotificationNoteKey];
+    [aCoder encodeDouble:self.radio forKey:kGeotificationRadiusKey];
+    [aCoder encodeObject:self.identificador forKey:kGeotificationIdentifierKey];
+    [aCoder encodeObject:self.nota forKey:kGeotificationNoteKey];
 }
 
 @end

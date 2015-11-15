@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import "GeotificationsViewController.h"
+#import "GeoNotificacionesViewController.h"
 #import "AddGeotificationViewController.h"
-#import "Geotification.h"
+#import "GeoNotificaciones.h"
 @import MapKit;
 @import CoreLocation;
 
@@ -26,35 +26,34 @@
 }
 
 - (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
+- (void)testPase {
     XCTAssert(YES, @"Pass");
 }
 
-- (void)testLoadGeo {
+- (void)TestInstanciaVacia {
+    NSArray *items = [[NSUserDefaults standardUserDefaults] arrayForKey:Datos];
+    XCTAssertNotNil(items);
+}
+
+- (void)TestInstanciaVaciaconTrue {
+
+    NSArray *items = [[NSUserDefaults standardUserDefaults] arrayForKey:Datos];
+    XCTAssertTrue(items);
+}
+- (void)TestNotificaciones {
     
-    NSArray *savedItems = [[NSUserDefaults standardUserDefaults] arrayForKey:kSavedItemsKey];
-    if (savedItems) {
-        for (id savedItem in savedItems) {
-            Geotification *geotification = [NSKeyedUnarchiver unarchiveObjectWithData:savedItem];
-            XCTAssertEqualObjects(geotification.note, @"Manta");
+    NSArray *items = [[NSUserDefaults standardUserDefaults] arrayForKey:Datos];
+    if (items) {
+        for (id item in items) {
+            GeoNotificaciones *geotificaciones = [NSKeyedUnarchiver unarchiveObjectWithData:item];
+            XCTAssertEqualObjects(geotificaciones.nota, @"Manta");
         }
     }
 }
-- (void)testLoadRadio {
-    
-    NSArray *savedItems = [[NSUserDefaults standardUserDefaults] arrayForKey:kSavedItemsKey];
-    if (savedItems) {
-        for (id savedItem in savedItems) {
-            Geotification *geotification = [NSKeyedUnarchiver unarchiveObjectWithData:savedItem];
-            XCTAssertEqualObjects(geotification.note, @"Montecristi");
-        }
-    }
-}
+
 
 
 

@@ -6,24 +6,23 @@
 //  Copyright (c) 2015 Property Atomic Strong SAC. All rights reserved.
 //
 
-#import "GeotificationsViewController.h"
+#import "GeoNotificacionesViewController.h"
 #import "AddGeotificationViewController.h"
-
-#import "Geotification.h"
+#import "GeoNotificaciones.h"
 #import "Utilities.h"
 
 @import MapKit;
 
-@interface GeotificationsViewController () <MKMapViewDelegate, AddGeotificationsViewControllerDelegate, CLLocationManagerDelegate>
+@interface GeoNotificacionesViewController () <MKMapViewDelegate, AddGeotificationsViewControllerDelegate, CLLocationManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
-@property (nonatomic, strong) NSMutableArray *geotifications;
+@property (nonatomic, strong) NSMutableArray *geotificaciones;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
 @end
 
-@implementation GeotificationsViewController
+@implementation GeoNotificacionesViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,19 +35,18 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
 
 - (void)loadAllGeotifications{
-    self.geotifications = [NSMutableArray array];
+    self.geotificaciones = [NSMutableArray array];
     
-    NSArray *savedItems = [[NSUserDefaults standardUserDefaults] arrayForKey:kSavedItemsKey];
+    NSArray *savedItems = [[NSUserDefaults standardUserDefaults] arrayForKey:Datos];
     if (savedItems) {
         for (id savedItem in savedItems) {
-            Geotification *geotification = [NSKeyedUnarchiver unarchiveObjectWithData:savedItem];
-            if ([geotification isKindOfClass:[Geotification class]]) {
+            GeoNotificaciones *geotification = [NSKeyedUnarchiver unarchiveObjectWithData:savedItem];
+            if ([geotification isKindOfClass:[GeoNotificaciones class]]) {
                 [self addGeotification:geotification];
             }
         }
@@ -57,24 +55,24 @@
 
 - (void)saveAllGeotifications{
     NSMutableArray *items = [NSMutableArray array];
-    for (Geotification *geotification in self.geotifications) {
+    for (GeoNotificaciones *geotification in self.geotificaciones) {
         id item = [NSKeyedArchiver archivedDataWithRootObject:geotification];
         [items addObject:item];
     }
-    [[NSUserDefaults standardUserDefaults] setObject:items forKey:kSavedItemsKey];
+    [[NSUserDefaults standardUserDefaults] setObject:items forKey:Datos];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 
-- (void)addGeotification:(Geotification *)geotification{
-    [self.geotifications addObject:geotification];
+- (void)addGeotification:(GeoNotificaciones *)geotification{
+    [self.geotificaciones addObject:geotification];
     [self.mapView addAnnotation:geotification];
     [self addRadiusOverlayForGeotification:geotification];
     [self updateGeotificationsCount];
 }
 
-- (void)removeGeotification:(Geotification *)geotification{
-    [self.geotifications removeObject:geotification];
+- (void)removeGeotification:(GeoNotificaciones *)geotification{
+    [self.geotificaciones removeObject:geotification];
     
     [self.mapView removeAnnotation:geotification];
     [self removeRadiusOverlayForGeotification:geotification];
@@ -82,8 +80,8 @@
 }
 
 - (void)updateGeotificationsCount{
-    self.title = [NSString stringWithFormat:@"Notaciones (%lu)", (unsigned long)self.geotifications.count];
-    [self.navigationItem.rightBarButtonItem setEnabled:self.geotifications.count<20];
+    self.title = [NSString stringWithFormat:@"Notaciones (%lu)", (unsigned long)self.geotificaciones.count];
+    [self.navigationItem.rightBarButtonItem setEnabled:self.geotificaciones.count<20];
 }
 
 
@@ -91,7 +89,7 @@
     [controller dismissViewControllerAnimated:YES completion:nil];
     
     CGFloat clampedRadius = (radius > self.locationManager.maximumRegionMonitoringDistance)?self.locationManager.maximumRegionMonitoringDistance : radius;
-    Geotification *geotification = [[Geotification alloc] initWithCoordinate:coordinate radius:clampedRadius identifier:identifier note:note];
+    GeoNotificaciones *geotification = [[GeoNotificaciones alloc] initWithCoordinate:coordinate radius:clampedRadius identifier:identifier note:note];
     [self addGeotification:geotification];
     [self startMonitoringGeotification:geotification];
     
@@ -101,7 +99,7 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
     static NSString *identifier = @"myGeotification";
-    if ([annotation isKindOfClass:[Geotification class]]) {
+    if ([annotation isKindOfClass:[GeoNotificaciones class]]) {
         MKPinAnnotationView *annotationView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
         if (![annotation isKindOfClass:[MKPinAnnotationView class]] || annotationView == nil) {
             annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
@@ -131,24 +129,24 @@
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
-    Geotification *geotification = (Geotification *) view.annotation;
+    GeoNotificaciones *geotification = (GeoNotificaciones *) view.annotation;
     [self stopMonitoringGeotification:geotification];
     [self removeGeotification:geotification];
     [self saveAllGeotifications];
 }
 
 
-- (void)addRadiusOverlayForGeotification:(Geotification *)geotification{
-    if (self.mapView) [self.mapView addOverlay:[MKCircle circleWithCenterCoordinate:geotification.coordinate radius:geotification.radius]];
+- (void)addRadiusOverlayForGeotification:(GeoNotificaciones *)geotification{
+    if (self.mapView) [self.mapView addOverlay:[MKCircle circleWithCenterCoordinate:geotification.coordinate radius:geotification.radio]];
 }
 
-- (void)removeRadiusOverlayForGeotification:(Geotification *)geotification{
+- (void)removeRadiusOverlayForGeotification:(GeoNotificaciones *)geotification{
     if (self.mapView){
         NSArray *overlays = self.mapView.overlays;
         for (MKCircle *circleOverlay in overlays) {
             if ([circleOverlay isKindOfClass:[MKCircle class]]) {
                 CLLocationCoordinate2D coordinate = circleOverlay.coordinate;
-                if (coordinate.latitude == geotification.coordinate.latitude && coordinate.longitude == geotification.coordinate.longitude && circleOverlay.radius == geotification.radius) {
+                if (coordinate.latitude == geotification.coordinate.latitude && coordinate.longitude == geotification.coordinate.longitude && circleOverlay.radius == geotification.radio) {
                     [self.mapView removeOverlay:circleOverlay];
                     break;
                 }
@@ -178,14 +176,14 @@
 }
 
 
-- (CLCircularRegion *)regionWithGeotification:(Geotification *)geotification{
-    CLCircularRegion *region = [[CLCircularRegion alloc] initWithCenter:geotification.coordinate radius:geotification.radius identifier:geotification.identifier];
+- (CLCircularRegion *)regionWithGeotification:(GeoNotificaciones *)geotification{
+    CLCircularRegion *region = [[CLCircularRegion alloc] initWithCenter:geotification.coordinate radius:geotification.radio identifier:geotification.identificador];
     [region setNotifyOnExit:!region.notifyOnEntry];
     
     return region;
 }
 
-- (void)startMonitoringGeotification:(Geotification *)geotification{
+- (void)startMonitoringGeotification:(GeoNotificaciones *)geotification{
     if (![CLLocationManager isMonitoringAvailableForClass:[CLCircularRegion class]]) {
         [Utilities showSimpleAlertWithTitle:@"Error" message:@"Geofencing is not supported on this device!" viewController:self];
         return;
@@ -199,10 +197,10 @@
     [self.locationManager startMonitoringForRegion:region];
 }
 
-- (void)stopMonitoringGeotification:(Geotification *)geotification{
+- (void)stopMonitoringGeotification:(GeoNotificaciones *)geotification{
     for (CLCircularRegion *circularRegion in self.locationManager.monitoredRegions) {
         if ([circularRegion isKindOfClass:[CLCircularRegion class]]) {
-            if ([circularRegion.identifier isEqualToString:geotification.identifier]) {
+            if ([circularRegion.identifier isEqualToString:geotification.identificador]) {
                 [self.locationManager stopMonitoringForRegion:circularRegion];
             }
         }

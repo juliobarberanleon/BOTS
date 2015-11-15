@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Geotification.h"
+#import "GeoNotificaciones.h"
 
 @import MapKit;
 

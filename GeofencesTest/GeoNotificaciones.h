@@ -13,12 +13,12 @@
 
 
 
-@interface Geotification : NSObject <NSCoding, MKAnnotation>
+@interface GeoNotificaciones : NSObject <NSCoding, MKAnnotation>
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
-@property (nonatomic, assign) CLLocationDistance radius;
-@property (nonatomic, strong) NSString *identifier;
-@property (nonatomic, strong) NSString *note;
+@property (nonatomic, assign) CLLocationDistance radio;
+@property (nonatomic, strong) NSString *identificador;
+@property (nonatomic, strong) NSString *nota;
 
 - (instancetype)initWithCoordinate:(CLLocationCoordinate2D)coordinate radius:(CLLocationDistance)radius identifier:(NSString *)identifier note:(NSString *)note;
 

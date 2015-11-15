@@ -7,9 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import "Geotification.h"
-#import "GeotificationsViewController.h"
-
+#import "GeoNotificaciones.h"
+#import "GeoNotificacionesViewController.h"
 #import "Utilities.h"
 
 @import CoreLocation;
@@ -23,7 +22,6 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
 
     // Override point for customization after application launch.
     
@@ -92,13 +90,13 @@
 }
 
 - (NSString *)noteFromRegionIdentifier:(NSString *)identifier{
-    NSArray *savedItems = [[NSUserDefaults standardUserDefaults] arrayForKey:kSavedItemsKey];
+    NSArray *savedItems = [[NSUserDefaults standardUserDefaults] arrayForKey:Datos];
     if(savedItems){
         for (id savedItem in savedItems) {
-            Geotification *geotification = [NSKeyedUnarchiver unarchiveObjectWithData:savedItem];
-            if ([geotification isKindOfClass:[Geotification class]]) {
-                if ([geotification.identifier isEqualToString:identifier]) {
-                    return geotification.note;
+            GeoNotificaciones *geotification = [NSKeyedUnarchiver unarchiveObjectWithData:savedItem];
+            if ([geotification isKindOfClass:[GeoNotificaciones class]]) {
+                if ([geotification.identificador isEqualToString:identifier]) {
+                    return geotification.nota;
                 }
             }
         }
