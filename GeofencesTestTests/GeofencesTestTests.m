@@ -44,13 +44,13 @@
     }
 }
 
-- (void)TestNotificacionesMon {
+- (void)TestNotificacionesMach {
     
     NSArray *items = [[NSUserDefaults standardUserDefaults] arrayForKey:Datos];
     if (items) {
         for (id item in items) {
             GeoNotificaciones *geotificaciones = [NSKeyedUnarchiver unarchiveObjectWithData:item];
-            XCTAssertEqualObjects(geotificaciones.nota, @"Montescristi");
+            XCTAssertEqualObjects(geotificaciones.nota, @"Machala");
         }
     }
 }
@@ -61,6 +61,16 @@
         for (id item in items) {
             GeoNotificaciones *geotificaciones = [NSKeyedUnarchiver unarchiveObjectWithData:item];
             XCTAssertEqualObjects(geotificaciones.nota, @"Guayaquil");
+        }
+    }
+}
+- (void)TestNotificacionesQui {
+    
+    NSArray *items = [[NSUserDefaults standardUserDefaults] arrayForKey:Datos];
+    if (items) {
+        for (id item in items) {
+            GeoNotificaciones *geotificaciones = [NSKeyedUnarchiver unarchiveObjectWithData:item];
+            XCTAssertEqualObjects(geotificaciones.nota, @"Quito");
         }
     }
 }
