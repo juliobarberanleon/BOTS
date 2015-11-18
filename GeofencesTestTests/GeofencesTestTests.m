@@ -74,6 +74,15 @@
         }
     }
 }
-
+- (void)TestNotificacionesCue {
+    
+    NSArray *items = [[NSUserDefaults standardUserDefaults] arrayForKey:Datos];
+    if (items) {
+        for (id item in items) {
+            GeoNotificaciones *geotificaciones = [NSKeyedUnarchiver unarchiveObjectWithData:item];
+            XCTAssertEqualObjects(geotificaciones.nota, @"Cuenca");
+        }
+    }
+}
 
 @end
