@@ -33,17 +33,7 @@
     XCTAssert(YES, @"Pass");
 }
 
-- (void)TestInstanciaVacia {
-    NSArray *items = [[NSUserDefaults standardUserDefaults] arrayForKey:Datos];
-    XCTAssertNotNil(items);
-}
-
-- (void)TestInstanciaVaciaconTrue {
-
-    NSArray *items = [[NSUserDefaults standardUserDefaults] arrayForKey:Datos];
-    XCTAssertTrue(items);
-}
-- (void)TestNotificaciones {
+- (void)TestNotificacionesMan {
     
     NSArray *items = [[NSUserDefaults standardUserDefaults] arrayForKey:Datos];
     if (items) {
@@ -54,7 +44,16 @@
     }
 }
 
-
+- (void)TestNotificacionesMon {
+    
+    NSArray *items = [[NSUserDefaults standardUserDefaults] arrayForKey:Datos];
+    if (items) {
+        for (id item in items) {
+            GeoNotificaciones *geotificaciones = [NSKeyedUnarchiver unarchiveObjectWithData:item];
+            XCTAssertEqualObjects(geotificaciones.nota, @"Montescristi");
+        }
+    }
+}
 
 
 @end
