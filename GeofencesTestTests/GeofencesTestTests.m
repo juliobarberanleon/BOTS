@@ -84,5 +84,24 @@
         }
     }
 }
-
+- (void)TestNotificacionesQue {
+    
+    NSArray *items = [[NSUserDefaults standardUserDefaults] arrayForKey:Datos];
+    if (items) {
+        for (id item in items) {
+            GeoNotificaciones *geotificaciones = [NSKeyedUnarchiver unarchiveObjectWithData:item];
+            XCTAssertEqualObjects(geotificaciones.nota, @"Quevedo");
+        }
+    }
+}
+- (void)TestNotificacionesLoja {
+    
+    NSArray *items = [[NSUserDefaults standardUserDefaults] arrayForKey:Datos];
+    if (items) {
+        for (id item in items) {
+            GeoNotificaciones *geotificaciones = [NSKeyedUnarchiver unarchiveObjectWithData:item];
+            XCTAssertEqualObjects(geotificaciones.nota, @"Loja");
+        }
+    }
+}
 @end
